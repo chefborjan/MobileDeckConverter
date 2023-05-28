@@ -1,0 +1,97 @@
+/* static/styles.css */
+
+body {
+    background-color: #ADD8E6;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2em;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #333;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.btn-choose,
+.btn-upload {
+    border: 2px solid gray;
+    color: gray;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-choose:hover,
+.btn-upload.enabled:hover {
+    background-color: #388E3C; /* A darker shade of green */
+    color: white;
+}
+
+.btn-upload {
+    background-color: #aaa;
+    color: white;
+    cursor: not-allowed;
+}
+
+.btn-upload.enabled {
+    background-color: #4CAF50;
+    cursor: pointer;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+/* Bounce animation */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-10px);}
+    60% {transform: translateY(-5px);}
+}
+
+.btn-upload:active {
+    animation: bounce 1.5s;
+}
+
+.deck-links {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.deck-link {
+    font-size: 18px;
+}
+
+#accordion .card-header {
+    background: #f5f5f5;
+    border: none;
+}
+
+#accordion .btn-link {
+    color: #333;
+    text-decoration: none;
+}
+
+#accordion .card-body {
+    font-size: 16px;
+    line-height: 1.5;
+}

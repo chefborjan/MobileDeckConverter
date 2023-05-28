@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Deck</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Mobile Pitch Deck Converter</h1>
+        <div class="info-section">
+            <h2>About our project</h2>
+            <p>
+                The Mobile Pitch Deck Converter is a revolutionary tool designed to assist startups
+                in creating accessible, mobile-friendly versions of their pitch decks. By simply
+                uploading your current deck, the converter extracts the key elements, analyzes the
+                content using NLP techniques, and generates a mobile-optimized version. This ensures your
+                compelling pitch can be accessed and fully appreciated anytime, anywhere, on any device.
+            </p>
+            <h2>How it works</h2>
+            <ol>
+                <li>Click on 'Choose a file' button and select your pitch deck file.</li>
+                <li>Once a file is selected, the 'Upload' button will be enabled.</li>
+                <li>Click on the 'Upload' button to start the conversion process.</li>
+                <li>Wait for the conversion to complete. Do not refresh or close the page during this time.</li>
+                <li>Once the conversion is complete, you will be redirected to a page to view and download your mobile-optimized pitch deck.</li>
+            </ol>
+        </div>
+        <h1>Upload your Pitch Deck</h1>
+        <form method="post" action="{% url 'upload_deck' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="upload-btn-wrapper">
+                 <button class="btn-choose">Choose a file</button>
+                    <input type="file" name="deck" id="myfile" />
+            </div>
+            <div class="submit-btn-wrapper">
+                <button type="submit" class="btn-upload" disabled>Upload</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const fileInput = document.querySelector('#myfile');
+        const uploadButton = document.querySelector('.btn-upload');
+
+        fileInput.addEventListener('input', function() {
+            if (fileInput.files.length > 0) {
+                uploadButton.removeAttribute('disabled');
+                uploadButton.classList.add('enabled');
+            } else {
+                uploadButton.setAttribute('disabled', true);
+                uploadButton.classList.remove('enabled');
+            }
+        });
+    </script>
+</body>
+</html>
