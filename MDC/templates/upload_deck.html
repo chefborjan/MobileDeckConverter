@@ -1,59 +1,70 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Upload Deck</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to the Mobile Pitch Deck Converter</h1>
-        <div class="info-section">
-            <h2>About our project</h2>
-            <p>
-                The Mobile Pitch Deck Converter is a revolutionary tool designed to assist startups
-                in creating accessible, mobile-friendly versions of their pitch decks. By simply
-                uploading your current deck, the converter extracts the key elements, analyzes the
-                content using NLP techniques, and generates a mobile-optimized version. This ensures your
-                compelling pitch can be accessed and fully appreciated anytime, anywhere, on any device.
-            </p>
-            <h2>How it works</h2>
-            <ol>
-                <li>Click on 'Choose a file' button and select your pitch deck file.</li>
-                <li>Once a file is selected, the 'Upload' button will be enabled.</li>
-                <li>Click on the 'Upload' button to start the conversion process.</li>
-                <li>Wait for the conversion to complete. Do not refresh or close the page during this time.</li>
-                <li>Once the conversion is complete, you will be redirected to a page to view and download your mobile-optimized pitch deck.</li>
-            </ol>
-        </div>
-        <h1>Upload your Pitch Deck</h1>
-        <form method="post" action="{% url 'upload_deck' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="upload-btn-wrapper">
-                 <button class="btn-choose">Choose a file</button>
-                    <input type="file" name="deck" id="myfile" />
-            </div>
-            <div class="submit-btn-wrapper">
-                <button type="submit" class="btn-upload" disabled>Upload</button>
-            </div>
-        </form>
+    <div class="container my-4">
+        <header class="mb-4">
+            <h1>Welcome to the Mobile Pitch Deck Converter</h1>
+            <p class="lead">This service allows you to upload your startup's pitch deck and get it converted into a mobile-friendly format.</p>
+        </header>
+        <section class="deck-upload-section">
+            <form method="post" action="/upload/" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="upload-btn-wrapper">
+                    <button type="button" class="btn btn-primary btn-choose">Choose a file</button>
+                    <input type="file" name="deck" id="myfile" style="display: none;" />
+                    <span id="file-name" class="file-name ml-3"></span>
+                </div>
+
+                <div class="submit-btn-wrapper mt-3">
+                    <button type="submit" class="btn btn-primary btn-upload" disabled>Upload</button>
+
+                </div>
+                <div id="confirmation-message" class="confirmation-message mt-3" style="display: none;">Your deck is being uploaded. Please wait...</div>
+            </form>
+        </section>
     </div>
 
     <script>
         const fileInput = document.querySelector('#myfile');
         const uploadButton = document.querySelector('.btn-upload');
+        const confirmationMessage = document.querySelector('#confirmation-message');
+        const btnChoose = document.querySelector('.btn-choose');
+        const fileName = document.querySelector('#file-name');
+        const form = document.querySelector('form');
+
+        btnChoose.addEventListener('click', function() {
+            fileInput.click();
+        });
 
         fileInput.addEventListener('input', function() {
             if (fileInput.files.length > 0) {
                 uploadButton.removeAttribute('disabled');
-                uploadButton.classList.add('enabled');
+                fileName.textContent = `Selected file: ${fileInput.files[0].name}`;
             } else {
                 uploadButton.setAttribute('disabled', true);
-                uploadButton.classList.remove('enabled');
+                fileName.textContent = '';
             }
         });
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();  // Prevent form submission
+            confirmationMessage.style.display = 'block';  // Display the upload message
+
+            // Submit the form after a short delay
+            setTimeout(function() {
+                form.submit();
+            }, 500);
+        });
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
